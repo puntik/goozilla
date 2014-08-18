@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Getting Started Extension's Popup</title>
+        <style>
+            body {
+                min-width: 357px;
+            }
+        </style>
+
+        <script src="js/jquery.min.js"></script>
+
+        <!-- Latest compiled and minified CSS -->	
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+
+
+        <!--
+          - JavaScript and HTML must be in separate files: see our Content Security
+          - Policy documentation[1] for details and explanation.
+          -
+          - [1]: http://developer.chrome.com/extensions/contentSecurityPolicy.html
+        -->
+        <script src="popup.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <form role="form">
+                <!-- label>Title: <input type="text" name="title" class="form-control"/></label -->
+                <textarea name="description" rows="6" class="form-control" placeholder="Description:"></textarea>
+                <!-- label>Est: </label><input type="text" name="estimate" class="form-control" placeholder="Time estimate:"/-->
+                <input type="date" name="deadline" id="fld-deadline" class="form-control" />
+                <hr>
+                <div class="text-center">
+                    <input type="button" name="submit" id="btn-submit" value="Submit" class="btn btn-default"/>
+                    <input type="button" name="cancel" id="btn-cancel" value="Storno" class="btn btn-danger"/>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>
+
