@@ -29,6 +29,20 @@ $(function() {
     });
 });
 
+function getBug() {
+    var _data = {
+        "id": "http://bugzilla.rem.cz",
+        "method": "Bug.get",
+        "params": [
+            {
+                "Bugzilla_login": "vlastimil.klik@rem.cz",
+                "Bugzilla_password": "pqowie92qaz",
+                "ids": [18]
+            }]};
+    var data = JSON.stringify(_data);
+
+}
+
 function sendData(message) {
 
     var _data = {
@@ -45,13 +59,16 @@ function sendData(message) {
             }]};
 
     var data = JSON.stringify(_data);
-    
+
+    data = "{}";
+
     $.ajax({
         "contentType": "application/json",
         "crossDomain": "true",
         "dataType": "json",
-        "url": "http://bugzilla.rem.cz/jsonrpc.cgi",
+        "url": "http://data.nasa.gov/api/#sthash.E0HCvQqQ.dpuf",
         "type": "POST",
+        "data": data,
         success: function(data, textStatus, jqXHR) {
             alert('OK');
         },
