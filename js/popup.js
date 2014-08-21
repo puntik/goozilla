@@ -22,8 +22,9 @@ $(function() {
             "version": "unspecified"
         };
 
-        saveBug(bug);
-        // window.close();
+        if (saveBug(bug) == 0) {
+            window.close();
+        }
     });
 });
 
@@ -34,7 +35,7 @@ function saveBug(bug) {
         "method": "Bug.create",
         "params": [bug]};
 
-    sendRequest(_data);
+    return sendRequest(_data);
 }
 
 function getBug(id) {
@@ -53,7 +54,7 @@ function getVersion() {
         "id": "http://bugzilla.rem.cz",
         "method": "Bugzilla.version",
         "params": []};
-    
+
     sendRequest(_data);
 }
 
@@ -69,9 +70,11 @@ function sendRequest(_data) {
         "data": requestData,
         success: function(responseData, textStatus, jqXHR) {
             console.log(JSON.stringify(responseData));
+            return 0;
         },
         error: function(jqXHR, textStatus, errorThrown) {
             alert('KO');
+            return 1;
         }
     });
 
