@@ -18,21 +18,27 @@ $(function() {
 
     $('#btn-submit').click(function() {
         // getBug(18);
-        saveBug();
+
+        var bug = {
+            "product": "TestProduct",
+            "component": "TestComponent",
+            "summary": "Test request from jsonrpc",
+            "description": "$('#fld-description')",
+            "version": "unspecified"
+        };
+
+        saveBug(bug);
         // window.close();
     });
 });
-function saveBug() {
 
-    var _bug = {
-        "product": "TestProduct",
-        "component": "TestComponent",
-        "summary": "Test request from jsonrpc",
-        "description": "Lorem ipsum .. ",
-        "version": "unspecified"
-    };
+function saveBug(bug) {
 
-    var _data = {"id": "http://bugzilla.rem.cz", "method": "Bug.create", "params": [_bug]};
+    var _data = {
+        "id": "http://bugzilla.rem.cz",
+        "method": "Bug.create",
+        "params": [bug]};
+
     var requestData = JSON.stringify(_data);
 
     $.ajax({
@@ -95,6 +101,12 @@ function getVersion() {
             alert('KO');
         }
     });
+
+
+}
+
+function sendRequest() {
+
 
 
 }
