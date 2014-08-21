@@ -77,6 +77,4 @@ function sendRequest(_data) {
             return 1;
         }
     });
-
-
 }
