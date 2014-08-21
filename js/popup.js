@@ -4,13 +4,6 @@ $(function() {
     var date = new Date().toISOString().substring(0, 10);
     $('#fld-deadline').attr('value', date);
 
-    // set the last description
-    var myLog = localStorage.getItem("myLog");
-    var data = JSON.parse(myLog);
-    if (data != null) {
-        $('#fld-description').val(data['description']);
-    }
-
     $('#btn-cancel').click(function() {
         // TODO: uklidit rozepsane veci do temporaty storage
         window.close();
