@@ -17,65 +17,84 @@ $(function() {
     });
 
     $('#btn-submit').click(function() {
-
-        var data = {
-            'deadline': $('#fld-deadline').val(),
-            'title': 'Message from chrome',
-            'description': $('#fld-description').val()}
-
-        sendData(JSON.stringify(data));
-
+        // getBug(18);
+        saveBug();
         // window.close();
     });
 });
+function saveBug() {
 
-function getBug() {
-    var _data = {
-        "id": "http://bugzilla.rem.cz",
-        "method": "Bug.get",
-        "params": [
-            {
-                "Bugzilla_login": "vlastimil.klik@rem.cz",
-                "Bugzilla_password": "pqowie92qaz",
-                "ids": [18]
-            }]};
-    var data = JSON.stringify(_data);
+    var _bug = {
+        "product": "TestProduct",
+        "component": "TestComponent",
+        "summary": "Test request from jsonrpc",
+        "description": "Lorem ipsum .. ",
+        "version": "unspecified"
+    };
 
-}
-
-function sendData(message) {
-
-    var _data = {
-        "id": "http://bugzilla.rem.cz",
-        "method": "Bug.create",
-        "params": [
-            {
-                "Bugzilla_login": "vlastimil.klik@rem.cz",
-                "Bugzilla_password": "pqowie92qaz",
-                "summary": "Test ze SoapLite",
-                "product": "TestProduct",
-                "component": "TestComponent",
-                "version": "unspecified"
-            }]};
-
-    var data = JSON.stringify(_data);
-
-    data = "{}";
+    var _data = {"id": "http://bugzilla.rem.cz", "method": "Bug.create", "params": [_bug]};
+    var requestData = JSON.stringify(_data);
 
     $.ajax({
         "contentType": "application/json",
-        "crossDomain": "true",
         "dataType": "json",
-        "url": "http://data.nasa.gov/api/#sthash.E0HCvQqQ.dpuf",
+        "url": "http://bugzilla.rem.cz/jsonrpc.cgi",
         "type": "POST",
-        "data": data,
-        success: function(data, textStatus, jqXHR) {
-            alert('OK');
+        "data": requestData,
+        success: function(responseData, textStatus, jqXHR) {
+            console.log(JSON.stringify(responseData));
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            alert('KO');
+        }
+    });
+}
+
+function getBug(id) {
+
+    var _data = {"id": "http://bugzilla.rem.cz", "method": "Bug.get", "params": [{"ids": [id]}]};
+    var requestData = JSON.stringify(_data);
+
+    $.ajax({
+        "contentType": "application/json",
+        "dataType": "json",
+        "url": "http://bugzilla.rem.cz/jsonrpc.cgi",
+        "type": "POST",
+        "data": requestData,
+        success: function(responseData, textStatus, jqXHR) {
+            console.log(JSON.stringify(responseData));
+            // JSON.parse(responseData);
+            var bugs = responseData['result']['bugs'];
+            var bug = bugs[0];
+
+            $('#fld-description').val(bug['summary']);
         },
         error: function(jqXHR, textStatus, errorThrown) {
             alert('KO');
         }
     });
 
-    // localStorage.setItem("myLog", message);
+}
+
+
+function getVersion() {
+    var _data = {"id": "http://bugzilla.rem.cz", "method": "Bugzilla.version", "params": []};
+    var a = JSON.stringify(_data);
+
+    $.ajax({
+        "contentType": "application/json",
+        "dataType": "json",
+        "url": "http://bugzilla.rem.cz/jsonrpc.cgi",
+        "type": "POST",
+        "data": a,
+        success: function(data, textStatus, jqXHR) {
+            console.log(JSON.stringify(data));
+            $('#fld-description').val(data['description']);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            alert('KO');
+        }
+    });
+
+
 }
