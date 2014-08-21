@@ -12,11 +12,13 @@ $(function() {
     $('#btn-submit').click(function() {
         // getBug(18);
 
+        var description = $('#fld-description').val();
+
         var bug = {
             "product": "TestProduct",
             "component": "TestComponent",
             "summary": "Test request from jsonrpc",
-            "description": "$('#fld-description')",
+            "description": description,
             "version": "unspecified"
         };
 
@@ -32,26 +34,31 @@ function saveBug(bug) {
         "method": "Bug.create",
         "params": [bug]};
 
-    var requestData = JSON.stringify(_data);
-
-    $.ajax({
-        "contentType": "application/json",
-        "dataType": "json",
-        "url": "http://bugzilla.rem.cz/jsonrpc.cgi",
-        "type": "POST",
-        "data": requestData,
-        success: function(responseData, textStatus, jqXHR) {
-            console.log(JSON.stringify(responseData));
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            alert('KO');
-        }
-    });
+    sendRequest(_data);
 }
 
 function getBug(id) {
 
-    var _data = {"id": "http://bugzilla.rem.cz", "method": "Bug.get", "params": [{"ids": [id]}]};
+    var _data = {
+        "id": "http://bugzilla.rem.cz",
+        "method": "Bug.get",
+        "params": [{"ids": [id]}]};
+
+    sendRequest(_data);
+}
+
+
+function getVersion() {
+    var _data = {
+        "id": "http://bugzilla.rem.cz",
+        "method": "Bugzilla.version",
+        "params": []};
+    
+    sendRequest(_data);
+}
+
+function sendRequest(_data) {
+
     var requestData = JSON.stringify(_data);
 
     $.ajax({
@@ -62,44 +69,11 @@ function getBug(id) {
         "data": requestData,
         success: function(responseData, textStatus, jqXHR) {
             console.log(JSON.stringify(responseData));
-            // JSON.parse(responseData);
-            var bugs = responseData['result']['bugs'];
-            var bug = bugs[0];
-
-            $('#fld-description').val(bug['summary']);
         },
         error: function(jqXHR, textStatus, errorThrown) {
             alert('KO');
         }
     });
-
-}
-
-
-function getVersion() {
-    var _data = {"id": "http://bugzilla.rem.cz", "method": "Bugzilla.version", "params": []};
-    var a = JSON.stringify(_data);
-
-    $.ajax({
-        "contentType": "application/json",
-        "dataType": "json",
-        "url": "http://bugzilla.rem.cz/jsonrpc.cgi",
-        "type": "POST",
-        "data": a,
-        success: function(data, textStatus, jqXHR) {
-            console.log(JSON.stringify(data));
-            $('#fld-description').val(data['description']);
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            alert('KO');
-        }
-    });
-
-
-}
-
-function sendRequest() {
-
 
 
 }

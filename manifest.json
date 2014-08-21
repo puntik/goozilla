@@ -1,8 +1,8 @@
 {
     "manifest_version": 2,
-    "name": "One-click Kittens",
-    "description": "This extension demonstrates a browser action with kittens.",
-    "version": "1.0",
+    "name": "Goozilla - bugzilla connector",
+    "description": "This extension allows to file a new issue to bugzilla.",
+    "version": "0.1",
     "permissions": [
         "http://bugzilla.rem.cz/"
     ],
