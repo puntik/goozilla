@@ -1,11 +1,18 @@
 <!doctype html>
 <html>
     <head>
-        <title>Getting Started Extension's Popup</title>
+        <title>Goozilla - bugzilla connector</title>
         <style>
             body {
-                min-width: 357px;
+                min-width: 320px;
             }
+            .pg-header {
+                background-color: #404d6c; color: white; padding: 0; padding-top: 8px; padding-bottom: 8px; margin-bottom: 10px;
+            }
+            .border-top {
+                border-top: 1px solid #ddd;
+            }
+
         </style>
 
         <script src="js/angular.min.js"></script>
@@ -28,9 +35,10 @@
         <script src="js/popup.js"></script>
     </head>
     <body>
-        <div class="jambotron" style="background-color: #404d6c; color: white; padding-bottom: 10px; padding-top: 10px; margin-bottom: 10px;">
+        <div class="pg-header">
             <div class="container">
-                gozilla
+                <img src="images/icon.png" width="16" height="16" alt="Goozilla - bugzilla connector">
+                Goozilla
             </div>
         </div>
         <div class="container">
@@ -40,12 +48,23 @@
                     <textarea name="description" rows="6" class="form-control" placeholder="Description:" id="fld-description"></textarea>
                     <p class="help-block">Issue description. The first line will be used as summary.</p>
                 </div>
-                <div class="form-group">
-                    <label for="fld-deadline">Deadline: </label>
-                    <input type="date" name="deadline" id="fld-deadline" value="2014-01-01" class="form-control" />
-                    <p class="help-block">Date of deadline.</p>
+
+                <div class="row">
+                    <div class="col-xs-8">
+                        <div class="form-group">
+                            <label for="fld-deadline">Deadline: </label>
+                            <input type="date" name="deadline" id="fld-deadline" value="2014-01-01" class="form-control" />
+                            <p class="help-block">Date of deadline.</p>
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="form-group">
+                            <label for="fld-estimate">Estimate: </label>
+                            <input type="text" name="estimate" id="fld-estimate" value="1" class="form-control" />
+                            <p class="help-block">In hours.</p>
+                        </div>
+                    </div>                    
                 </div>
-                <hr>
                 <div class="text-center">
                     <div class="form-group">
                         <input type="button" name="submit" id="btn-submit" value="Submit" class="btn btn-default"/>
