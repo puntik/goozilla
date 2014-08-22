@@ -31,8 +31,7 @@ $(function() {
     });
 
     $('#btn-clear').click(function() {
-        // chrome.browserAction.setBadgeBackgroundColor({color:[255, 0, 0, 230]});
-        chrome.browserAction.setBadgeText({text: "3"});
+        $('#fld-description').val("");
     });
 });
 
