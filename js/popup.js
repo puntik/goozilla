@@ -28,10 +28,12 @@ $(function() {
             // window.close();
         }
 
+
     });
 
     $('#btn-clear').click(function() {
         $('#fld-description').val("");
+        $('#alert_placeholder').remove();
     });
 });
 
@@ -42,7 +44,15 @@ function saveBug(bug) {
         "method": "Bug.create",
         "params": [bug]};
 
-    return sendRequest(_data);
+    sendRequest(_data);
+
+    var alertType = 'success';
+    var message = 'Inserted';
+
+    showAlert(alertType, message);
+
+    return 0;
+
 }
 
 function getBug(id) {
@@ -64,6 +74,21 @@ function getVersion() {
 
     sendRequest(_data);
 }
+
+/**
+ * 
+ * @param {type} alertType
+ * @param {type} message
+ * @returns {undefined}
+ */
+function showAlert(alertType, message) {
+
+    $('#alert_placeholder').append('<div id="alertdiv" class="alert alert-' + alertType + '"><span>' + message + '</span></div>');
+    setTimeout(function() {
+        $('#alert_placeholder').remove();
+    }, 3000);
+}
+
 
 function sendRequest(_data) {
 
