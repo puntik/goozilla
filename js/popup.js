@@ -10,21 +10,29 @@ $(function() {
     });
 
     $('#btn-submit').click(function() {
-        // getBug(18);
 
         var description = $('#fld-description').val();
+        var summary = description.split('\n')[0];
 
         var bug = {
             "product": "TestProduct",
             "component": "TestComponent",
-            "summary": "Test request from jsonrpc",
+            "summary": "test summary",
             "description": description,
             "version": "unspecified"
         };
 
+
         if (saveBug(bug) == 0) {
-            window.close();
+            // alert('OK');
+            // window.close();
         }
+
+    });
+
+    $('#btn-clear').click(function() {
+        // chrome.browserAction.setBadgeBackgroundColor({color:[255, 0, 0, 230]});
+        chrome.browserAction.setBadgeText({text: "3"});
     });
 });
 
@@ -70,11 +78,10 @@ function sendRequest(_data) {
         "data": requestData,
         success: function(responseData, textStatus, jqXHR) {
             console.log(JSON.stringify(responseData));
-            return 0;
         },
         error: function(jqXHR, textStatus, errorThrown) {
             alert('KO');
-            return 1;
         }
     });
+    return 0;
 }
