@@ -27,8 +27,6 @@ $(function() {
             // alert('OK');
             // window.close();
         }
-
-
     });
 
     $('#btn-clear').click(function() {
@@ -88,7 +86,6 @@ function showAlert(alertType, message) {
         $('#alert_placeholder').remove();
     }, 3000);
 }
-
 
 function sendRequest(_data) {
 
