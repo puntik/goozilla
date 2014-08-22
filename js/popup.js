@@ -17,7 +17,7 @@ $(function() {
         var bug = {
             "product": "TestProduct",
             "component": "TestComponent",
-            "summary": "test summary",
+            "summary": summary,
             "description": description,
             "version": "unspecified"
         };
