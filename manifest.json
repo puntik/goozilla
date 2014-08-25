@@ -3,7 +3,7 @@
     "default_locale": "cs",
     "name": "__MSG_extName__",
     "description": "This extension allows to file a new issue to bugzilla.",
-    "version": "0.1",
+    "version": "0.2",
     "icons": {
         "16": "images/icon.png",
         "48": "images/icon48.png",

@@ -5,49 +5,46 @@ $(function() {
     $('#fld-deadline').attr('value', date);
 
     $('#btn-cancel').click(function() {
-        // TODO: uklidit rozepsane veci do temporaty storage
-        window.close();
+	// TODO: uklidit rozepsane veci do temporaty storage
+	window.close();
     });
 
     $('#btn-submit').click(function() {
 
-        var description = $('#fld-description').val();
-        var summary = description.split('\n')[0];
+	console.log('clicked .. ');
 
-        var bug = {
-            "product": "TestProduct",
-            "component": "TestComponent",
-            "summary": summary,
-            "description": description,
-            "version": "unspecified"
-        };
+	var description = $('#fld-description').val();
+	var summary = description.split('\n')[0];
+
+	var bug = {
+	    "product": "TestProduct",
+	    "component": "TestComponent",
+	    "summary": summary,
+	    "description": description,
+	    "version": "unspecified"
+	};
 
 
-        if (saveBug(bug) == 0) {
-            // alert('OK');
-            // window.close();
-        }
+	if (saveBug(bug) == 0) {
+	    // alert('OK');
+	    // window.close();
+	}
     });
 
     $('#btn-clear').click(function() {
-        $('#fld-description').val("");
-        $('#alert_placeholder').remove();
+	$('#fld-description').val("");
+	$('#alert_placeholder').remove();
     });
 });
 
 function saveBug(bug) {
 
     var _data = {
-        "id": "http://bugzilla.rem.cz",
-        "method": "Bug.create",
-        "params": [bug]};
+	"id": "http://bugzilla.rem.cz",
+	"method": "Bug.create",
+	"params": [bug]};
 
-    sendRequest(_data);
-
-    var alertType = 'success';
-    var message = 'Inserted';
-
-    showAlert(alertType, message);
+    var resp = sendRequest(_data);
 
     return 0;
 
@@ -56,25 +53,27 @@ function saveBug(bug) {
 function getBug(id) {
 
     var _data = {
-        "id": "http://bugzilla.rem.cz",
-        "method": "Bug.get",
-        "params": [{"ids": [id]}]};
+	"id": "http://bugzilla.rem.cz",
+	"method": "Bug.get",
+	"params": [{"ids": [id]}]};
 
     sendRequest(_data);
+    return;
+
 }
 
 
 function getVersion() {
     var _data = {
-        "id": "http://bugzilla.rem.cz",
-        "method": "Bugzilla.version",
-        "params": []};
+	"id": "http://bugzilla.rem.cz",
+	"method": "Bugzilla.version",
+	"params": []};
 
     sendRequest(_data);
 }
 
 /**
- * 
+ *
  * @param {type} alertType
  * @param {type} message
  * @returns {undefined}
@@ -83,26 +82,43 @@ function showAlert(alertType, message) {
 
     $('#alert_placeholder').append('<div id="alertdiv" class="alert alert-' + alertType + '"><span>' + message + '</span></div>');
     setTimeout(function() {
-        $('#alert_placeholder').remove();
-    }, 3000);
+	$('#alertdiv').remove();
+    }, 8000);
 }
 
 function sendRequest(_data) {
 
+    showAlert('info', 'Sending data');
+
+    var ret = 0;
     var requestData = JSON.stringify(_data);
+    var _responseData;
 
     $.ajax({
-        "contentType": "application/json",
-        "dataType": "json",
-        "url": "http://bugzilla.rem.cz/jsonrpc.cgi",
-        "type": "POST",
-        "data": requestData,
-        success: function(responseData, textStatus, jqXHR) {
-            console.log(JSON.stringify(responseData));
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            alert('KO');
-        }
+	"contentType": "application/json",
+	"dataType": "json",
+	"url": "http://bugzilla.rem.cz/jsonrpc.cgi",
+	"type": "POST",
+	"data": requestData,
+	success: function(responseData, textStatus, jqXHR) {
+
+	    $('#alertdiv').remove();
+	    console.log(JSON.stringify(responseData));
+
+	    if (responseData['error'] != null) {
+		var errorCode = responseData['error']['code'];
+		if (errorCode > 0) {
+		    showAlert('danger', "Bug was not filed with error code " + errorCode + ".");
+		}
+	    } else {
+		var id = responseData['result']['id'];
+		showAlert('success', "Bug was filed with id " + id + ".");
+		// $('#fld-description').val("");
+	    }
+
+
+	},
+	error: function(jqXHR, textStatus, errorThrown) {
+	}
     });
-    return 0;
 }
