@@ -1,6 +1,7 @@
 {
     "manifest_version": 2,
-    "name": "Goozilla - bugzilla connector",
+    "default_locale": "cs",
+    "name": "__MSG_extName__",
     "description": "This extension allows to file a new issue to bugzilla.",
     "version": "0.1",
     "icons": {
