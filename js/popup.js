@@ -109,7 +109,7 @@ function showAlert(alertType, message) {
     $('#alert_placeholder').append('<div id="alertdiv" class="alert alert-' + alertType + '"><span>' + message + '</span></div>');
     setTimeout(function() {
         $('#alertdiv').remove();
-    }, 8000);
+    }, NOTIFICATION_TIMEOUT);
 }
 
 function sendRequest(_data) {
