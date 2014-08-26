@@ -1,3 +1,5 @@
+var NOTIFICATION_TIMEOUT = 5000;
+
 $(function() {
 
     // set date in deadline
@@ -5,30 +7,30 @@ $(function() {
     $('#fld-deadline').attr('value', date);
 
     $('#btn-cancel').click(function() {
-	// TODO: uklidit rozepsane veci do temporaty storage
-	window.close();
+        // TODO: uklidit rozepsane veci do temporaty storage
+        window.close();
     });
 
     $('#btn-submit').click(function() {
 
-	console.log('clicked .. ');
+        console.log('clicked .. ');
 
-	var description = $('#fld-description').val();
-	var summary = description.split('\n')[0];
+        var description = $('#fld-description').val();
+        var summary = description.split('\n')[0];
 
-	var bug = {
-	    "product": "TestProduct",
-	    "component": "TestComponent",
-	    "summary": summary,
-	    "description": description,
-	    "version": "unspecified"
-	};
+        var bug = {
+            "product": "TestProduct",
+            "component": "TestComponent",
+            "summary": summary,
+            "description": description,
+            "version": "unspecified"
+        };
 
 
-	if (saveBug(bug) == 0) {
-	    // alert('OK');
-	    // window.close();
-	}
+        if (saveBug(bug) == 0) {
+            // alert('OK');
+            // window.close();
+        }
     });
 
     $('#btn-clear').click(function() {
@@ -36,8 +38,10 @@ $(function() {
         $('#alert_placeholder').remove();
 
         var params = {
-            "title": "hello world",
-            "message": "Hello world long"
+            "title": "Goozilla - bugzilla connector",
+            "message": "Your issue was successfuly filed with id 12345. You can solve it on your bugzilla account.",
+            "type": "basic",
+            "iconUrl": "../images/icon48.png"
         };
 
         var notId = '123';
@@ -52,7 +56,7 @@ function callback(notId) {
         chrome.notifications.clear(notId, function(wasCleared) {
             console.log('Notification ' + notId + ' cleared: ' + wasCleared);
         });
-    }, 3000);
+    }, NOTIFICATION_TIMEOUT);
 
 }
 
@@ -62,9 +66,9 @@ function saveBug(bug) {
 
 
     var _data = {
-	"id": "http://bugzilla.rem.cz",
-	"method": "Bug.create",
-	"params": [bug]};
+        "id": "http://bugzilla.rem.cz",
+        "method": "Bug.create",
+        "params": [bug]};
 
     var resp = sendRequest(_data);
 
@@ -75,9 +79,9 @@ function saveBug(bug) {
 function getBug(id) {
 
     var _data = {
-	"id": "http://bugzilla.rem.cz",
-	"method": "Bug.get",
-	"params": [{"ids": [id]}]};
+        "id": "http://bugzilla.rem.cz",
+        "method": "Bug.get",
+        "params": [{"ids": [id]}]};
 
     sendRequest(_data);
     return;
@@ -87,9 +91,9 @@ function getBug(id) {
 
 function getVersion() {
     var _data = {
-	"id": "http://bugzilla.rem.cz",
-	"method": "Bugzilla.version",
-	"params": []};
+        "id": "http://bugzilla.rem.cz",
+        "method": "Bugzilla.version",
+        "params": []};
 
     sendRequest(_data);
 }
@@ -104,7 +108,7 @@ function showAlert(alertType, message) {
 
     $('#alert_placeholder').append('<div id="alertdiv" class="alert alert-' + alertType + '"><span>' + message + '</span></div>');
     setTimeout(function() {
-	$('#alertdiv').remove();
+        $('#alertdiv').remove();
     }, 8000);
 }
 
@@ -117,30 +121,30 @@ function sendRequest(_data) {
     var _responseData;
 
     $.ajax({
-	"contentType": "application/json",
-	"dataType": "json",
-	"url": "http://bugzilla.rem.cz/jsonrpc.cgi",
-	"type": "POST",
-	"data": requestData,
-	success: function(responseData, textStatus, jqXHR) {
+        "contentType": "application/json",
+        "dataType": "json",
+        "url": "http://bugzilla.rem.cz/jsonrpc.cgi",
+        "type": "POST",
+        "data": requestData,
+        success: function(responseData, textStatus, jqXHR) {
 
-	    $('#alertdiv').remove();
-	    console.log(JSON.stringify(responseData));
+            $('#alertdiv').remove();
+            console.log(JSON.stringify(responseData));
 
-	    if (responseData['error'] != null) {
-		var errorCode = responseData['error']['code'];
-		if (errorCode > 0) {
-		    showAlert('danger', "Bug was not filed with error code " + errorCode + ".");
-		}
-	    } else {
-		var id = responseData['result']['id'];
-		showAlert('success', "Bug was filed with id " + id + ".");
-		// $('#fld-description').val("");
-	    }
+            if (responseData['error'] != null) {
+                var errorCode = responseData['error']['code'];
+                if (errorCode > 0) {
+                    showAlert('danger', "Bug was not filed with error code " + errorCode + ".");
+                }
+            } else {
+                var id = responseData['result']['id'];
+                showAlert('success', "Bug was filed with id " + id + ".");
+                // $('#fld-description').val("");
+            }
 
 
-	},
-	error: function(jqXHR, textStatus, errorThrown) {
-	}
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+        }
     });
 }
