@@ -32,12 +32,34 @@ $(function() {
     });
 
     $('#btn-clear').click(function() {
-	$('#fld-description').val("");
-	$('#alert_placeholder').remove();
+        $('#fld-description').val("");
+        $('#alert_placeholder').remove();
+
+        var params = {
+            "title": "hello world",
+            "message": "Hello world long"
+        };
+
+        var notId = '123';
+        chrome.notifications.create(notId, params, callback);
     });
 });
 
+function callback(notId) {
+    console.log('Notification ' + notId + ' started');
+    setTimeout(function() {
+        console.log('Notification ' + notId + ' clear');
+        chrome.notifications.clear(notId, function(wasCleared) {
+            console.log('Notification ' + notId + ' cleared: ' + wasCleared);
+        });
+    }, 3000);
+
+}
+
 function saveBug(bug) {
+
+
+
 
     var _data = {
 	"id": "http://bugzilla.rem.cz",
