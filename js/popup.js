@@ -17,13 +17,15 @@ $(function() {
 
         var description = $('#fld-description').val();
         var summary = description.split('\n')[0];
+        var estimate = $('#fld-estimated_time').val();
 
         var bug = {
             "product": "TestProduct",
             "component": "TestComponent",
             "summary": summary,
             "description": description,
-            "version": "unspecified"
+            "version": "unspecified",
+            "estimated_time": estimate
         };
 
 
