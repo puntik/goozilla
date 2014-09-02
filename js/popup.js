@@ -19,13 +19,17 @@ $(function() {
         var summary = description.split('\n')[0];
         var estimate = $('#fld-estimated_time').val();
 
+        var deadline = new Date();
+        deadline.setDate(deadline.getDate() + 14);
+
         var bug = {
             "product": "TestProduct",
             "component": "TestComponent",
             "summary": summary,
             "description": description,
             "version": "unspecified",
-            "estimated_time": estimate
+            "estimated_time": estimate,
+            "deadline": formatDate(deadline)
         };
 
 
@@ -149,4 +153,15 @@ function sendRequest(_data) {
         error: function(jqXHR, textStatus, errorThrown) {
         }
     });
+}
+
+function formatDate(date) {
+
+    var day = date.getDate().toString();
+    var month = (date.getMonth() + 1).toString();
+    var year = (date.getYear() + 1900).toString();
+
+    var ret = year + "-" + ((month.length > 1) ? month : "0" + month) + "-" + ((day.length > 1) ? day : "0" + day);
+    return ret;
+
 }
