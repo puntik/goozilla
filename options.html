@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Goozilla options</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- jquery -->
+        <script src="js/jquery.min.js"></script>
+
+        <!-- bootstrap -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+
+        <script type="text/javascript" src="js/options.js"></script>
+        <style type="text/css">
+            body {
+                background-color: #ddd;
+            }
+            .red {
+                color: red;
+            }
+            .green {
+                color: green;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Options</h1>
+            </header>
+            <form role="form">
+                <section>
+                    <label for="bg-url">Url</label>
+                    <input type="text" name="bg_url" id="bg-url" class="form-control"/>
+                    <label for="bg-loginname">Loginname</label>
+                    <input type="text" name="bg_loginname" id="bg-loginname" class="form-control"/>
+                    <label for="bg-password">Password</label>
+                    <input type="password" name="bg_password" id="bg-password" class="form-control"/>
+                </section>
+                <hr/>
+                <section>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" />Allow time estimate</label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" />Allow deadline</label>
+                    </div>
+                </section>
+
+                <hr/>
+                <div class="text-center">
+                    <a class="btn btn-default" id="option-btn-save">
+                        Save options</a>
+
+                    <a class="btn btn-default" id="option-btn-test">
+                        Test connection</a>
+                </div>
+
+            </form>
+        </div>
+
+    </body>
+</html>
