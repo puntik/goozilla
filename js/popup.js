@@ -5,6 +5,9 @@ $(function() {
     // set date in deadline
     getConfigValue('bg_days_to_add');
 
+    // focus on summary field
+    $('#fld-description').focus();
+
     $('#btn-cancel').click(function() {
         // TODO: uklidit rozepsane veci do temporaty storage
         window.close();
