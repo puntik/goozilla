@@ -17,21 +17,21 @@ $(function() {
 
         var description = $('#fld-description').val();
         var summary = description.split('\n')[0];
-        var estimate = $('#fld-estimated_time').val();
-
-        var deadline = new Date();
-        deadline.setDate(deadline.getDate() + 14);
 
         var bug = {
             "product": "TestProduct",
             "component": "TestComponent",
             "summary": summary,
             "description": description,
-            "version": "unspecified",
-            "estimated_time": estimate,
-            "deadline": formatDate(deadline)
+            "version": "unspecified"
         };
 
+        var estimate = $('#fld-estimated_time').val();
+        bug["estimated_time"] = estimate;
+
+        var deadline = new Date();
+        deadline.setDate(deadline.getDate() + 14);
+        bug["deadline"] = formatDate(deadline);
 
         if (saveBug(bug) == 0) {
             // alert('OK');
