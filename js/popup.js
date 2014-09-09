@@ -3,8 +3,10 @@ var NOTIFICATION_TIMEOUT = 5000;
 $(function() {
 
     // set date in deadline
-    var date = new Date().toISOString().substring(0, 10);
-    $('#fld-deadline').attr('value', date);
+    getConfigValue('bg_days_to_add');
+
+    // focus on summary field
+    $('#fld-description').focus();
 
     $('#btn-cancel').click(function() {
         // TODO: uklidit rozepsane veci do temporaty storage
@@ -13,25 +15,24 @@ $(function() {
 
     $('#btn-submit').click(function() {
 
-        console.log('clicked .. ');
+
 
         var description = $('#fld-description').val();
         var summary = description.split('\n')[0];
-        var estimate = $('#fld-estimated_time').val();
-
-        var deadline = new Date();
-        deadline.setDate(deadline.getDate() + 14);
 
         var bug = {
             "product": "TestProduct",
             "component": "TestComponent",
             "summary": summary,
             "description": description,
-            "version": "unspecified",
-            "estimated_time": estimate,
-            "deadline": formatDate(deadline)
+            "version": "unspecified"
         };
 
+        var estimate = $('#fld-estimated_time').val();
+        bug["estimated_time"] = estimate;
+
+        var deadline = $('#fld-deadline').val();
+        bug["deadline"] = deadline;
 
         if (saveBug(bug) == 0) {
             // alert('OK');
@@ -68,9 +69,6 @@ function callback(notId) {
 
 function saveBug(bug) {
 
-
-
-
     var _data = {
         "id": "http://bugzilla.rem.cz",
         "method": "Bug.create",
@@ -96,6 +94,7 @@ function getBug(id) {
 
 
 function getVersion() {
+    
     var _data = {
         "id": "http://bugzilla.rem.cz",
         "method": "Bugzilla.version",
@@ -163,5 +162,18 @@ function formatDate(date) {
 
     var ret = year + "-" + ((month.length > 1) ? month : "0" + month) + "-" + ((day.length > 1) ? day : "0" + day);
     return ret;
+
+}
+
+function getConfigValue(name) {
+
+    // simply load config
+    chrome.storage.sync.get({
+        'bg_days_to_add': 7},
+    function(items) {
+        var deadline = new Date();
+        deadline.setDate(deadline.getDate() + parseInt(items.bg_days_to_add));
+        $('#fld-deadline').attr('value', deadline.toISOString().substring(0, 10));
+    });
 
 }
